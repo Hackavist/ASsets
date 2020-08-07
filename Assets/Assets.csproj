@@ -171,13 +171,22 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Helpers\Constants.cs" />
+    <Compile Include="Helpers\ImageHelpers.cs" />
+    <Compile Include="Helpers\NumberHelpers.cs" />
     <Compile Include="Models\Dtos\AssetDto.cs" />
     <Compile Include="Models\Dtos\RepairDto.cs" />
     <Compile Include="Views\AssetAddingWindow.xaml.cs">
       <DependentUpon>AssetAddingWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\HistoryAddingWindow.xaml.cs">
+      <DependentUpon>HistoryAddingWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\RepairAddingWindow.xaml.cs">
+      <DependentUpon>RepairAddingWindow.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -228,7 +237,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\HistoryAddingWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\MainWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\RepairAddingWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

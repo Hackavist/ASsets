@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
+using Assets.Helpers;
 using Assets.Models;
 using Assets.Models.DataModels;
 using Assets.Models.Dtos;
@@ -15,7 +16,6 @@ namespace Assets.Views
     public partial class MainWindow : Window
     {
         public ObservableCollection<AssetDto> AssetGridDataSource { get; set; }
-        public bool ShouldRefresh { get; set; }
         public DateTime LastRefreshed { get; set; }
 
         public MainWindow()
@@ -31,7 +31,7 @@ namespace Assets.Views
 
         private void MainWindow_OnGotFocus(object sender, RoutedEventArgs e)
         {
-            if (!ShouldRefresh) return;
+            if (!(bool)Application.Current.Properties[Constants.ShouldMainWindowRefresh]) return;
             Refresh();
         }
 
@@ -73,6 +73,7 @@ namespace Assets.Views
                     foreach (Asset asset in db) AssetGridDataSource.Add(new AssetDto(asset));
                     AssetsDataGrid.ItemsSource = AssetGridDataSource;
                     LastRefreshed = DateTime.Now;
+                    Application.Current.Properties[Constants.ShouldMainWindowRefresh] = false;
                 }
                 catch (Exception exception)
                 {

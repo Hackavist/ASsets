@@ -1,0 +1,93 @@
+﻿<Window
+    x:Class="Assets.Views.RepairAddingWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:Assets.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="RepairAddingWindow"
+    Width="600"
+    Height="400"
+    mc:Ignorable="d">
+    <Grid Margin="10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="2*" />
+            <RowDefinition Height="2*" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+
+        <Label
+            x:Name="TitleLabel"
+            Grid.Row="0"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            Margin="20,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center"
+            Content="Add Repair For an Asset"
+            FontSize="20" />
+
+        <!--  Repair Location  -->
+        <Label
+            Grid.Row="1"
+            Grid.Column="0"
+            VerticalAlignment="Center"
+            Content="Repair Location *" />
+        <TextBox
+            x:Name="RepairLocationBox"
+            Grid.Row="1"
+            Grid.Column="1"
+            VerticalAlignment="Center" />
+        <!--  Repair Date  -->
+        <Label
+            Grid.Row="1"
+            Grid.Column="2"
+            VerticalAlignment="Center"
+            Content="Repair Date *" />
+        <DatePicker
+            x:Name="RepairDatePicker"
+            Grid.Row="1"
+            Grid.Column="3"
+            Margin="15,0"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Center" />
+
+        <!--  Labor Cost  -->
+        <Label
+            Grid.Row="2"
+            Grid.Column="0"
+            VerticalAlignment="Center"
+            Content="Labor Cost *" />
+        <TextBox
+            x:Name="LaborCostBox"
+            Grid.Row="2"
+            Grid.Column="1"
+            VerticalAlignment="Center" />
+        <!--  Spare Parts CostBox  -->
+        <Label
+            Grid.Row="2"
+            Grid.Column="2"
+            VerticalAlignment="Center"
+            Content="Spare parts Cost *" />
+        <TextBox
+            x:Name="SparePartsCostBox"
+            Grid.Row="2"
+            Grid.Column="3"
+            VerticalAlignment="Center" />
+        <Button
+            x:Name="SaveBTN"
+            Grid.Row="3"
+            Grid.Column="3"
+            Margin="10"
+            Click="SaveBTN_OnClick"
+            Content="Save" />
+    </Grid>
+</Window>

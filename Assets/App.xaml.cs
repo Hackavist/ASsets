@@ -13,5 +13,6 @@ namespace Assets
     /// </summary>
     public partial class App : Application
     {
+        public bool ShouldRefresh { get; set; } = false;
     }
 }

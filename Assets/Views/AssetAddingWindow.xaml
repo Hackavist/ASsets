@@ -41,6 +41,7 @@
                 <RowDefinition Height="*" />
                 <RowDefinition Height="*" />
                 <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
             <Label
@@ -51,7 +52,7 @@
                 Margin="36,0"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Center"
-                Content="Add an Asset"
+                Content="Add a new Asset"
                 FontSize="25" />
 
             <!--  Asset Number  -->
@@ -225,9 +226,25 @@
                 MouseLeftButtonUp="CalibrationCertificateImageName_OnMouseLeftButtonUp" />
 
             <Button
-                Grid.Row="8"
+                x:Name="HistoryBTN"
+                Grid.Row="9"
+                Grid.Column="0"
+                Margin="10"
+                Click="HistoryBTN_OnClick"
+                Content="Add Relocation History" />
+
+            <Button
+                x:Name="RepairBTN"
+                Grid.Row="9"
+                Grid.Column="1"
+                Margin="10"
+                Click="RepairBTN_OnClick"
+                Content="Add Repair" />
+
+            <Button
+                Grid.Row="9"
                 Grid.Column="3"
-                Margin="15"
+                Margin="10"
                 Click="ButtonBase_OnClick"
                 Content="Add Asset" />
         </Grid>
