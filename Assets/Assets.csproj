@@ -179,6 +179,9 @@
     <Compile Include="Views\AssetAddingWindow.xaml.cs">
       <DependentUpon>AssetAddingWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\AssetDetailsWindow.xaml.cs">
+      <DependentUpon>AssetDetailsWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\HistoryAddingWindow.xaml.cs">
       <DependentUpon>HistoryAddingWindow.xaml</DependentUpon>
     </Compile>
@@ -234,6 +237,10 @@
   <ItemGroup />
   <ItemGroup>
     <Page Include="Views\AssetAddingWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AssetDetailsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

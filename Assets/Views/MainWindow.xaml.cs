@@ -5,7 +5,6 @@ using System.Windows;
 using System.Windows.Input;
 using Assets.Helpers;
 using Assets.Models;
-using Assets.Models.DataModels;
 using Assets.Models.Dtos;
 
 namespace Assets.Views
@@ -15,14 +14,15 @@ namespace Assets.Views
     /// </summary>
     public partial class MainWindow : Window
     {
-        public ObservableCollection<AssetDto> AssetGridDataSource { get; set; }
-        public DateTime LastRefreshed { get; set; }
-
         public MainWindow()
         {
             InitializeComponent();
             AssetGridDataSource = new ObservableCollection<AssetDto>();
+            Application.Current.Properties[Constants.ShouldMainWindowRefresh] = false;
         }
+
+        public ObservableCollection<AssetDto> AssetGridDataSource { get; set; }
+        public DateTime LastRefreshed { get; set; }
 
         private void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
         {
@@ -37,7 +37,7 @@ namespace Assets.Views
 
         private void AddAssetBTN_OnClick(object sender, RoutedEventArgs e)
         {
-            AssetAddingWindow addingWindow = new AssetAddingWindow();
+            var addingWindow = new AssetAddingWindow();
             addingWindow.Show();
         }
 
@@ -48,7 +48,8 @@ namespace Assets.Views
 
         private void EventSetter_OnHandler(object sender, MouseButtonEventArgs e)
         {
-            throw new NotImplementedException();
+            var window = new AssetDetailsWindow(AssetGridDataSource[AssetsDataGrid.SelectedIndex]);
+            window.Show();
         }
 
         private void SearchBTN_OnClick(object sender, RoutedEventArgs e)
@@ -58,7 +59,7 @@ namespace Assets.Views
 
         private void Refresh()
         {
-            using (DatabaseContext dbContext = new DatabaseContext())
+            using (var dbContext = new DatabaseContext())
             {
                 try
                 {
@@ -70,7 +71,7 @@ namespace Assets.Views
                     }
 
                     AssetGridDataSource.Clear();
-                    foreach (Asset asset in db) AssetGridDataSource.Add(new AssetDto(asset));
+                    foreach (var asset in db) AssetGridDataSource.Add(new AssetDto(asset));
                     AssetsDataGrid.ItemsSource = AssetGridDataSource;
                     LastRefreshed = DateTime.Now;
                     Application.Current.Properties[Constants.ShouldMainWindowRefresh] = false;
@@ -81,6 +82,12 @@ namespace Assets.Views
                     MessageBox.Show("Error Loading Assets ");
                 }
             }
+        }
+
+        private void MainWindow_OnActivated(object sender, EventArgs e)
+        {
+            if (!(bool)Application.Current.Properties[Constants.ShouldMainWindowRefresh]) return;
+            Refresh();
         }
     }
 }
