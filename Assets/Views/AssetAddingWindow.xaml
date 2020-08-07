@@ -1,0 +1,235 @@
+﻿<Window
+    x:Class="Assets.Views.AssetAddingWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:Assets.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="AssetAddingWindow"
+    Width="800"
+    Height="450"
+    mc:Ignorable="d">
+    <Window.Resources>
+        <Style TargetType="TextBox">
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="Margin" Value="15,0" />
+            <Setter Property="FontSize" Value="14" />
+        </Style>
+
+        <Style TargetType="Label">
+            <Setter Property="HorizontalAlignment" Value="Right" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="FontSize" Value="14" />
+        </Style>
+    </Window.Resources>
+    <ScrollViewer CanContentScroll="True" VerticalScrollBarVisibility="Visible">
+        <Grid ScrollViewer.CanContentScroll="True">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <Label
+                x:Name="TitleLabel"
+                Grid.Row="0"
+                Grid.Column="0"
+                Grid.ColumnSpan="2"
+                Margin="36,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Content="Add an Asset"
+                FontSize="25" />
+
+            <!--  Asset Number  -->
+            <Label
+                Grid.Row="1"
+                Grid.Column="0"
+                Content="Asset Number *" />
+            <TextBox
+                x:Name="AssetNumberBox"
+                Grid.Row="1"
+                Grid.Column="1" />
+            <!--  PMV Code  -->
+            <Label
+                Grid.Row="1"
+                Grid.Column="2"
+                Content="PMV Code" />
+            <TextBox
+                x:Name="PMVCodeBox"
+                Grid.Row="1"
+                Grid.Column="3" />
+
+            <!--  Po Number  -->
+            <Label
+                Grid.Row="2"
+                Grid.Column="2"
+                Content="Po Number" />
+            <TextBox
+                x:Name="PoNumberBox"
+                Grid.Row="2"
+                Grid.Column="3" />
+            <!--  Asset Id  -->
+            <Label
+                Grid.Row="2"
+                Grid.Column="0"
+                Content="Asset Id *" />
+            <TextBox
+                x:Name="AssetIdBox"
+                Grid.Row="2"
+                Grid.Column="1" />
+
+            <!--  Asset Name  -->
+            <Label
+                Grid.Row="3"
+                Grid.Column="0"
+                Content="Asset Name *" />
+            <TextBox
+                x:Name="AssetNameBox"
+                Grid.Row="3"
+                Grid.Column="1" />
+
+            <!--  Plate/Serial Number  -->
+            <Label
+                Grid.Row="3"
+                Grid.Column="2"
+                Content="Plate/Serial Number" />
+            <TextBox
+                x:Name="PlateSerialNumberBox"
+                Grid.Row="3"
+                Grid.Column="3" />
+
+            <!--  Date of Purchase  -->
+            <Label
+                Grid.Row="4"
+                Grid.Column="0"
+                Content="Date of Purchase *" />
+            <DatePicker
+                x:Name="DateOfPurchasePicker"
+                Grid.Row="4"
+                Grid.Column="1"
+                Margin="15,0"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Center" />
+
+            <!--  Cost of Asset  -->
+            <Label
+                Grid.Row="4"
+                Grid.Column="2"
+                Content="Cost Of Asset *" />
+            <TextBox
+                x:Name="CostOfAssetBox"
+                Grid.Row="4"
+                Grid.Column="3" />
+
+            <!--  MonthsToDepreciation (int)  -->
+            <Label
+                Grid.Row="5"
+                Grid.Column="2"
+                Content="Months To Depreciation *" />
+            <TextBox
+                x:Name="MonthsToDepreciationBox"
+                Grid.Row="5"
+                Grid.Column="3" />
+
+            <!--  Tool Type  -->
+            <Label
+                Grid.Row="5"
+                Grid.Column="0"
+                Content="Tool Type *" />
+            <TextBox
+                x:Name="ToolTypeBox"
+                Grid.Row="5"
+                Grid.Column="1" />
+            <!--  Status  -->
+            <Label
+                Grid.Row="6"
+                Grid.Column="0"
+                Content="Status *" />
+            <ComboBox
+                x:Name="StatusPicker"
+                Grid.Row="6"
+                Grid.Column="1"
+                Margin="15,0"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Center">
+                <ComboBoxItem>Ready</ComboBoxItem>
+                <ComboBoxItem>Needs Service</ComboBoxItem>
+                <ComboBoxItem>In Service</ComboBoxItem>
+            </ComboBox>
+
+            <!--  Asset Image  -->
+            <Label
+                Grid.Row="6"
+                Grid.Column="2"
+                Content="Asset Image" />
+            <Label
+                x:Name="ImageNameLabel"
+                Grid.Row="6"
+                Grid.Column="3"
+                Margin="10,0"
+                HorizontalAlignment="Left"
+                Content="Click Here to add Image"
+                Foreground="Blue"
+                MouseLeftButtonUp="ImageNameLabel_OnMouseLeftButtonUp" />
+
+            <!--  Calibration Certification Number  -->
+            <Label
+                Grid.Row="7"
+                Grid.Column="0"
+                Content="Calibration Certification Num" />
+            <TextBox
+                x:Name="CalibrationCertificationNumberBox"
+                Grid.Row="7"
+                Grid.Column="1" />
+
+            <!--  Calibration Certification Date  -->
+            <Label
+                Grid.Row="7"
+                Grid.Column="2"
+                Content="Calibration Certification Date" />
+            <DatePicker
+                x:Name="CalibrationCertificationDatePicker"
+                Grid.Row="7"
+                Grid.Column="3"
+                Margin="15,0"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Center" />
+
+            <!--  Calibration Certificate Image  -->
+            <Label
+                Grid.Row="8"
+                Grid.Column="0"
+                Content="Calibration Certificate Image" />
+            <Label
+                x:Name="CalibrationCertificateImageName"
+                Grid.Row="8"
+                Grid.Column="1"
+                Margin="10,0"
+                HorizontalAlignment="Left"
+                Content="Click Here to add Image"
+                Foreground="Blue"
+                MouseLeftButtonUp="CalibrationCertificateImageName_OnMouseLeftButtonUp" />
+
+            <Button
+                Grid.Row="8"
+                Grid.Column="3"
+                Margin="15"
+                Click="ButtonBase_OnClick"
+                Content="Add Asset" />
+        </Grid>
+    </ScrollViewer>
+</Window>

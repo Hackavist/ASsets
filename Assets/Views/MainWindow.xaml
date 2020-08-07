@@ -1,0 +1,64 @@
+﻿<Window
+    x:Class="Assets.Views.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:Assets.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="MainWindow"
+    Width="960"
+    Height="720"
+    GotFocus="MainWindow_OnGotFocus"
+    Loaded="MainWindow_OnLoaded"
+    mc:Ignorable="d">
+    <Grid Margin="15">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.5*" />
+            <RowDefinition Height="4*" />
+        </Grid.RowDefinitions>
+        <Button
+            x:Name="AddAssetBTN"
+            Grid.Row="0"
+            Grid.Column="0"
+            Margin="30,15"
+            Click="AddAssetBTN_OnClick"
+            Content="Add Asset" />
+        <Button
+            x:Name="SearchBTN"
+            Grid.Row="0"
+            Grid.Column="1"
+            Margin="30,15"
+            Click="SearchBTN_OnClick"
+            Content="Search" />
+        <Button
+            x:Name="NotifyBTN"
+            Grid.Row="0"
+            Grid.Column="2"
+            Margin="30,15"
+            Click="NotifyBTN_OnClick"
+            Content="Notify" />
+        <DataGrid
+            Name="AssetsDataGrid"
+            Grid.Row="1"
+            Grid.Column="0"
+            Grid.ColumnSpan="3"
+            AlternatingRowBackground="Honeydew"
+            AutoGenerateColumns="True"
+            RowBackground="Azure"
+            SelectionMode="Single">
+            <DataGrid.ItemContainerStyle>
+                <Style TargetType="DataGridRow">
+                    <EventSetter
+                        x:Name="GridDoubleClickEvent"
+                        Event="MouseDoubleClick"
+                        Handler="EventSetter_OnHandler" />
+                </Style>
+            </DataGrid.ItemContainerStyle>
+        </DataGrid>
+    </Grid>
+</Window>
