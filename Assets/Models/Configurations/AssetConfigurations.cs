@@ -15,6 +15,8 @@ namespace Assets.Models.Configurations
             entityBuilder.Property(x => x.PurchaseCostOfAsset).IsRequired();
             entityBuilder.Property(x => x.MonthsToDepreciation).IsRequired();
             entityBuilder.Property(x => x.ToolType).IsRequired();
+            entityBuilder.Property(x => x.AssetPictureFormat).IsRequired();
+            entityBuilder.Property(x => x.CalibrationCertificationPictureFormat).IsRequired();
             entityBuilder.Property(x => x.AssetStatus).IsRequired().HasConversion<int>();
 
             entityBuilder.HasMany(x => x.Repairs).WithOne(r => r.Asset).HasForeignKey(x => x.AssetId)

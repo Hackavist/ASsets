@@ -19,7 +19,9 @@ namespace Assets.Views
     public partial class AssetAddingWindow : Window
     {
         private string AssetImageBase64 { get; set; }
+        private string AssetImageFormat { get; set; }
         private string CalibrationCertificateBase64 { get; set; }
+        private string CalibrationCertificateFormat { get; set; }
         private List<string> Errors { get; set; }
         private int InsertedAssetId { get; set; }
         public AssetAddingWindow()
@@ -34,6 +36,8 @@ namespace Assets.Views
         {
             DocumentSelectionDialog(out string documentBase64, out string documentName);
             AssetImageBase64 = documentBase64;
+            var splits = documentName.Split('.');
+            AssetImageFormat = "." + splits[splits.Length - 1];
             ImageNameLabel.Content = documentName;
         }
 
@@ -41,6 +45,8 @@ namespace Assets.Views
         {
             DocumentSelectionDialog(out string documentBase64, out string documentName);
             CalibrationCertificateBase64 = documentBase64;
+            var splits = documentName.Split('.');
+            CalibrationCertificateFormat = "." + splits[splits.Length - 1];
             CalibrationCertificateImageName.Content = documentName;
         }
 
@@ -171,6 +177,12 @@ namespace Assets.Views
 
             if (!string.IsNullOrWhiteSpace(CalibrationCertificateBase64))
                 temp.CalibrationCertificationPictureBase64 = CalibrationCertificateBase64;
+
+            if (!string.IsNullOrWhiteSpace(AssetImageFormat))
+                temp.AssetPictureFormat = AssetImageFormat;
+
+            if (!string.IsNullOrWhiteSpace(CalibrationCertificateBase64))
+                temp.CalibrationCertificationPictureFormat = CalibrationCertificateFormat;
             return temp;
         }
 

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -34,10 +36,10 @@ namespace Assets.Views
             InitializeComponent();
             SelectedAssetDto = selectedAssetDto;
             StatusPicker.ItemsSource = ComboboxSource;
-            FillTheUI();
+            FillTheUi();
         }
 
-        private void FillTheUI()
+        private void FillTheUi()
         {
             using (DatabaseContext dbContext = new DatabaseContext())
             {
@@ -83,6 +85,20 @@ namespace Assets.Views
                     MessageBox.Show("Error Loading Assets ");
                 }
             }
+        }
+
+        private void ShowAssetImageBTN_OnClick(object sender, RoutedEventArgs e)
+        {
+            string filePath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)+SelectedAsset.AssetName+SelectedAsset.AssetPictureFormat;
+            File.WriteAllBytes(filePath, Convert.FromBase64String(SelectedAsset.AssetPictureBase64));
+            Process.Start(filePath);
+        }
+
+        private void ShowAssetCertificateBTN_OnClick(object sender, RoutedEventArgs e)
+        {
+            string filePath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)+SelectedAsset.AssetName+" Certificate "+SelectedAsset.CalibrationCertificationPictureFormat;
+            File.WriteAllBytes(filePath, Convert.FromBase64String(SelectedAsset.CalibrationCertificationPictureBase64));
+            Process.Start(filePath);
         }
     }
 }

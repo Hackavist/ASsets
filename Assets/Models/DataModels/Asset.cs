@@ -21,7 +21,9 @@ namespace Assets.Models.DataModels
         public string CalibrationCertificationNumber { get; set; }
         public DateTime CalibrationCertificationDate { get; set; }
         public string CalibrationCertificationPictureBase64 { get; set; }
+        public string CalibrationCertificationPictureFormat{ get; set; }
         public string AssetPictureBase64 { get; set; }
+        public string AssetPictureFormat { get; set; }
         public virtual ICollection<Repair> Repairs { get; set; }
         public virtual ICollection<Repositions> Repositions { get; set; }
     }

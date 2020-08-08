@@ -247,6 +247,25 @@
                 Grid.Column="3"
                 IsReadOnly="True" />
 
+            <Button
+                x:Name="ShowAssetImageBTN"
+                Grid.Row="9"
+                Grid.Column="0"
+                Grid.ColumnSpan="2"
+                Margin="15,15"
+                Content="Show Asset Image" 
+                Click="ShowAssetImageBTN_OnClick"/>
+
+            <Button
+                x:Name="ShowAssetCertificateBTN"
+                Grid.Row="9"
+                Grid.Column="2"
+                Grid.ColumnSpan="2"
+                Margin="15,15"
+                Click="ShowAssetCertificateBTN_OnClick"
+                Content="Show Asset Calibration Certificate" />
+
+
         </Grid>
     </ScrollViewer>
 </Window>
