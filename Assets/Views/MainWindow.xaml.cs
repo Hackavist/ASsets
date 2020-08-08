@@ -15,12 +15,14 @@ namespace Assets.Views
     public partial class MainWindow : Window
     {
         public ObservableCollection<AssetDto> AssetGridDataSource { get; set; }
+        public ObservableCollection<AssetDto> ExpiredAssets { get; set; }
         public DateTime LastRefreshed { get; set; }
 
         public MainWindow()
         {
             InitializeComponent();
             AssetGridDataSource = new ObservableCollection<AssetDto>();
+            ExpiredAssets = new ObservableCollection<AssetDto>();
             Application.Current.Properties[Constants.ShouldMainWindowRefresh] = false;
         }
 
@@ -31,7 +33,7 @@ namespace Assets.Views
 
         private void MainWindow_OnGotFocus(object sender, RoutedEventArgs e)
         {
-            if (!(bool) Application.Current.Properties[Constants.ShouldMainWindowRefresh]) return;
+            if (!(bool)Application.Current.Properties[Constants.ShouldMainWindowRefresh]) return;
             Refresh();
         }
 
@@ -43,7 +45,24 @@ namespace Assets.Views
 
         private void NotifyBTN_OnClick(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            using (DatabaseContext dbContext = new DatabaseContext())
+            {
+                try
+                {
+                    var db = dbContext.Assets.Where(x =>
+                        x.CalibrationCertificationDate.Date >= DateTime.Today.Date &&
+                        x.CalibrationCertificationDate.Date < DateTime.Today.Date.AddDays(7.0)).ToList();
+                    ExpiredAssets.Clear();
+                    foreach (var asset in db) ExpiredAssets.Add(new AssetDto(asset));
+                }
+                catch (Exception exception)
+                {
+                    Console.WriteLine(exception);
+                    MessageBox.Show("Error Loading Assets ");
+                }
+            }
+
+            MessageBox.Show(ExpiredAssets.Count.ToString());
         }
 
         private void EventSetter_OnHandler(object sender, MouseButtonEventArgs e)
@@ -86,7 +105,7 @@ namespace Assets.Views
 
         private void MainWindow_OnActivated(object sender, EventArgs e)
         {
-            if (!(bool) Application.Current.Properties[Constants.ShouldMainWindowRefresh]) return;
+            if (!(bool)Application.Current.Properties[Constants.ShouldMainWindowRefresh]) return;
             Refresh();
         }
 
