@@ -64,17 +64,28 @@
                 FontSize="25" />
 
             <Button
-                x:Name="EditBTN"
+                x:Name="SaveAssetBTN"
+                Grid.Row="0"
+                Grid.Column="1"
+                Margin="10,15"
+                Click="SaveAssetBTN_OnClick"
+                Content="Save"
+                IsEnabled="False" />
+
+            <Button
+                x:Name="EditAssetBTN"
                 Grid.Row="0"
                 Grid.Column="2"
                 Margin="10,15"
+                Click="EditAssetBTN_OnClick"
                 Content="Edit Asset" />
 
             <Button
-                x:Name="DeleteBTN"
+                x:Name="DeleteAssetBTN"
                 Grid.Row="0"
                 Grid.Column="3"
                 Margin="10,15"
+                Click="DeleteAssetBTN_OnClick"
                 Content="Delete Asset" />
 
             <!--  Asset Name  -->

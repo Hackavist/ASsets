@@ -35,7 +35,8 @@ namespace Assets.Views
         }
 
         private void FillTheUi()
-        {RepairsList.Clear();
+        {
+            RepairsList.Clear();
             RepositionsList.Clear();
             using (var dbContext = new DatabaseContext())
             {
@@ -179,6 +180,55 @@ namespace Assets.Views
         {
             var window = new HistoryAddingWindow(SelectedAsset.Id, Constants.AssetDetailsWindow);
             window.Show();
+        }
+
+        private void DeleteAssetBTN_OnClick(object sender, RoutedEventArgs e)
+        {
+            using (var dbContext = new DatabaseContext())
+            {
+                try
+                {
+                    dbContext.Remove(SelectedAsset);
+                    dbContext.SaveChanges();
+                }
+                catch (Exception exception)
+                {
+                    Console.WriteLine(exception);
+                    MessageBox.Show("Error Loading Assets ");
+                }
+            }
+
+            MessageBox.Show("Asset Deleted");
+            Close();
+        }
+
+        private void EditAssetBTN_OnClick(object sender, RoutedEventArgs e)
+        {
+            AssetIdBox.IsReadOnly = false;
+            PMVCodeBox.IsReadOnly = false;
+            AssetNumberBox.IsReadOnly = false;
+            PoNumberBox.IsReadOnly = false;
+            AssetNameBox.IsReadOnly = false;
+            PlateSerialNumberBox.IsReadOnly = false;
+            DateOfPurchasePicker.IsManipulationEnabled = true;
+            CostOfAssetBox.IsReadOnly =false;
+            ToolTypeBox.IsReadOnly = false;
+            MonthsToDepreciationBox.IsReadOnly = false;
+            StatusPicker.IsReadOnly = false;
+            StatusPicker.IsEditable = true;
+            CalibrationCertificationDatePicker.IsManipulationEnabled = true;
+            CalibrationCertificationNumberBox.IsReadOnly = false;
+
+            SaveAssetBTN.IsEnabled = true;
+            //change labels for the images
+        }
+
+        private void SaveAssetBTN_OnClick(object sender, RoutedEventArgs e)
+        {
+            //lock
+            // update db
+            // flag refresh (main window)
+            throw new NotImplementedException();
         }
     }
 }

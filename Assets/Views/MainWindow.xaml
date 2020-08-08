@@ -20,26 +20,27 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="0.5*" />
+            <RowDefinition Height="0.5*" />
             <RowDefinition Height="4*" />
         </Grid.RowDefinitions>
         <Button
             x:Name="AddAssetBTN"
             Grid.Row="0"
-            Grid.Column="0"
+            Grid.Column="2"
             Margin="30,15"
             Click="AddAssetBTN_OnClick"
             Content="Add Asset" />
         <Button
             x:Name="SearchBTN"
             Grid.Row="0"
-            Grid.Column="1"
+            Grid.Column="0"
             Margin="30,15"
             Click="SearchBTN_OnClick"
             Content="Search" />
         <Button
             x:Name="NotifyBTN"
             Grid.Row="0"
-            Grid.Column="2"
+            Grid.Column="1"
             Margin="30,15"
             Click="NotifyBTN_OnClick"
             Content="Notify" />
@@ -52,7 +53,7 @@
             Source="../sign.png" />
         <DataGrid
             Name="AssetsDataGrid"
-            Grid.Row="1"
+            Grid.Row="2"
             Grid.Column="0"
             Grid.ColumnSpan="4"
             AlternatingRowBackground="Honeydew"
