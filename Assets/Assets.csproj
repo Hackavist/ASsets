@@ -180,6 +180,7 @@
     </Compile>
     <Compile Include="Models\Dtos\AssetDto.cs" />
     <Compile Include="Models\Dtos\RepairDto.cs" />
+    <Compile Include="Models\Dtos\RepositionDto.cs" />
     <Compile Include="Views\AssetAddingWindow.xaml.cs">
       <DependentUpon>AssetAddingWindow.xaml</DependentUpon>
     </Compile>
@@ -238,7 +239,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <Page Include="Views\AssetAddingWindow.xaml">
       <SubType>Designer</SubType>
@@ -260,6 +260,9 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="sign.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

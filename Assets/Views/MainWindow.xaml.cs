@@ -14,15 +14,15 @@ namespace Assets.Views
     /// </summary>
     public partial class MainWindow : Window
     {
+        public ObservableCollection<AssetDto> AssetGridDataSource { get; set; }
+        public DateTime LastRefreshed { get; set; }
+
         public MainWindow()
         {
             InitializeComponent();
             AssetGridDataSource = new ObservableCollection<AssetDto>();
             Application.Current.Properties[Constants.ShouldMainWindowRefresh] = false;
         }
-
-        public ObservableCollection<AssetDto> AssetGridDataSource { get; set; }
-        public DateTime LastRefreshed { get; set; }
 
         private void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
         {
@@ -31,7 +31,7 @@ namespace Assets.Views
 
         private void MainWindow_OnGotFocus(object sender, RoutedEventArgs e)
         {
-            if (!(bool)Application.Current.Properties[Constants.ShouldMainWindowRefresh]) return;
+            if (!(bool) Application.Current.Properties[Constants.ShouldMainWindowRefresh]) return;
             Refresh();
         }
 
@@ -86,7 +86,12 @@ namespace Assets.Views
 
         private void MainWindow_OnActivated(object sender, EventArgs e)
         {
-            if (!(bool)Application.Current.Properties[Constants.ShouldMainWindowRefresh]) return;
+            if (!(bool) Application.Current.Properties[Constants.ShouldMainWindowRefresh]) return;
+            Refresh();
+        }
+
+        private void UIElement_OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
             Refresh();
         }
     }

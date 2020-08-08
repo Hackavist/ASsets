@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Globalization;
@@ -22,6 +21,7 @@ namespace Assets.Views
         private AssetDto SelectedAssetDto { get; }
         public Asset SelectedAsset { get; set; }
         public ObservableCollection<RepairDto> RepairsList { get; set; }
+        public ObservableCollection<RepositionDto> RepositionsList { get; set; }
         public string[] ComboboxSource = {"Ready", "Needs Service", "In Service"};
 
         public AssetDetailsWindow(AssetDto selectedAssetDto)
@@ -29,12 +29,14 @@ namespace Assets.Views
             InitializeComponent();
             SelectedAssetDto = selectedAssetDto;
             RepairsList = new ObservableCollection<RepairDto>();
+            RepositionsList = new ObservableCollection<RepositionDto>();
             StatusPicker.ItemsSource = ComboboxSource;
             Application.Current.Properties[Constants.ShouldAssetDetailsRefresh] = true;
         }
 
         private void FillTheUi()
-        {
+        {RepairsList.Clear();
+            RepositionsList.Clear();
             using (var dbContext = new DatabaseContext())
             {
                 try
@@ -44,6 +46,11 @@ namespace Assets.Views
                     foreach (var rep in dbContext.Repair.Where(x => x.AssetId == SelectedAsset.Id)
                         .OrderByDescending(x => x.RepairDate).ToList()) RepairsList.Add(new RepairDto(rep));
                     RepairGrid.ItemsSource = RepairsList;
+
+                    foreach (var rep in dbContext.Repositions.Where(x => x.AssetId == SelectedAsset.Id)
+                        .OrderByDescending(x => x.AddedDate).ToList()) RepositionsList.Add(new RepositionDto(rep));
+                    RepositionHistory.ItemsSource = RepositionsList;
+
                     if (SelectedAsset == null)
                     {
                         MessageBox.Show("Invalid selected Asset", "Error");
@@ -122,15 +129,14 @@ namespace Assets.Views
                         .OrderByDescending(x => x.AddedDate).First();
                     dbContext.Remove(lastRepair);
                     dbContext.SaveChanges();
-                    RepairsList.RemoveAt(RepairsList.Count-1);
-                    //History = new ObservableCollection<Repositions>(SelectedAsset.Repositions);
-                    //foreach (var rep in SelectedAsset.Repairs) Repairs.Add(new RepairDto(rep));
-                    MessageBox.Show("Asset Deleted", "Done");
+                    RepairsList.RemoveAt(RepairsList.Count - 1);
+
+                    MessageBox.Show("Asset Repair Deleted", "Done");
                 }
                 catch (Exception exception)
                 {
                     Console.WriteLine(exception);
-                    MessageBox.Show("Error Deleting Asset");
+                    MessageBox.Show("Error Deleting Asset repair");
                 }
             }
         }
@@ -139,6 +145,40 @@ namespace Assets.Views
         {
             if (!(bool) Application.Current.Properties[Constants.ShouldAssetDetailsRefresh]) return;
             FillTheUi();
+        }
+
+        private void RemoveRepositionHistory_OnClick(object sender, RoutedEventArgs e)
+        {
+            using (var dbContext = new DatabaseContext())
+            {
+                try
+                {
+                    var lastReposition = dbContext.Repositions.Where(x => x.AssetId == SelectedAsset.Id)
+                        .OrderByDescending(x => x.AddedDate).First();
+                    dbContext.Remove(lastReposition);
+                    dbContext.SaveChanges();
+                    RepositionsList.RemoveAt(0);
+                    SelectedAsset = dbContext.Assets.Where(x => x.Id == SelectedAsset.Id).First();
+                    SelectedAsset.CurrentLocation = RepositionsList.Count >= 1
+                        ? RepositionsList[0].NewPosition
+                        : "-";
+                    dbContext.Update(SelectedAsset);
+                    dbContext.SaveChanges();
+                    Application.Current.Properties[Constants.ShouldMainWindowRefresh] = true;
+                    MessageBox.Show("Asset History Deleted", "Done");
+                }
+                catch (Exception exception)
+                {
+                    Console.WriteLine(exception);
+                    MessageBox.Show("Error Deleting Asset History");
+                }
+            }
+        }
+
+        private void AddRepositionHistory_OnClick(object sender, RoutedEventArgs e)
+        {
+            var window = new HistoryAddingWindow(SelectedAsset.Id, Constants.AssetDetailsWindow);
+            window.Show();
         }
     }
 }
