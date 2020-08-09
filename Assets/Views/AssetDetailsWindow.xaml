@@ -269,19 +269,36 @@
                 x:Name="ShowAssetImageBTN"
                 Grid.Row="9"
                 Grid.Column="0"
-                Grid.ColumnSpan="2"
                 Margin="15,15"
                 Click="ShowAssetImageBTN_OnClick"
                 Content="Show Asset Image" />
+
+            <Label
+                x:Name="ChangeAssetImageLabel"
+                Grid.Row="9"
+                Grid.Column="1"
+                Margin="10,0"
+                HorizontalAlignment="Left"
+                Content="Click to change Image"
+                IsEnabled="False"
+                MouseLeftButtonUp="ChangeAssetImageLabel_OnMouseLeftButtonUp" />
 
             <Button
                 x:Name="ShowAssetCertificateBTN"
                 Grid.Row="9"
                 Grid.Column="2"
-                Grid.ColumnSpan="2"
                 Margin="15,15"
                 Click="ShowAssetCertificateBTN_OnClick"
-                Content="Show Asset Calibration Certificate" />
+                Content="Show Calibration Certificate" />
+            <Label
+                x:Name="ChangeCertificateLabel"
+                Grid.Row="9"
+                Grid.Column="3"
+                Margin="10,0"
+                HorizontalAlignment="Left"
+                Content="Click to change Document"
+                IsEnabled="False"
+                MouseLeftButtonUp="ChangeCertificateLabel_OnMouseLeftButtonUp" />
 
             <Separator
                 Grid.Row="10"

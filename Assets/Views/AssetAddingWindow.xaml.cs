@@ -181,7 +181,7 @@ namespace Assets.Views
             if (!string.IsNullOrWhiteSpace(AssetImageFormat))
                 temp.AssetPictureFormat = AssetImageFormat;
 
-            if (!string.IsNullOrWhiteSpace(CalibrationCertificateBase64))
+            if (!string.IsNullOrWhiteSpace(CalibrationCertificateFormat))
                 temp.CalibrationCertificationPictureFormat = CalibrationCertificateFormat;
             return temp;
         }
