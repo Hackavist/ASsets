@@ -62,7 +62,8 @@ namespace Assets.Views
                 }
             }
 
-            MessageBox.Show(ExpiredAssets.Count.ToString());
+            var window = new ShowExpiryNotificationWindow(ExpiredAssets);
+            window.Show();
         }
 
         private void EventSetter_OnHandler(object sender, MouseButtonEventArgs e)

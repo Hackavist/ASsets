@@ -196,6 +196,9 @@
     <Compile Include="Views\RepairAddingWindow.xaml.cs">
       <DependentUpon>RepairAddingWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\ShowExpiryNotificationWindow.xaml.cs">
+      <DependentUpon>ShowExpiryNotificationWindow.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Migrations\20200806124053_initmigration.cs" />
@@ -257,6 +260,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\RepairAddingWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ShowExpiryNotificationWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
