@@ -89,9 +89,17 @@ namespace Assets.Views
                         MessageBox.Show("There are no Assets in the database");
                         return;
                     }
-
                     AssetGridDataSource.Clear();
-                    foreach (var asset in db) AssetGridDataSource.Add(new AssetDto(asset));
+                    foreach (var asset in db)
+                    {
+                        if (asset.CurrentLocation == null)
+                        {
+                            asset.CurrentLocation = dbContext.Repositions.Where(x => x.AssetId == asset.Id)
+                                .OrderByDescending(x => x.AddedDate).First().NewPosition;
+                        }
+
+                        AssetGridDataSource.Add(new AssetDto(asset));
+                    }
                     AssetsDataGrid.ItemsSource = AssetGridDataSource;
                     LastRefreshed = DateTime.Now;
                     Application.Current.Properties[Constants.ShouldMainWindowRefresh] = false;

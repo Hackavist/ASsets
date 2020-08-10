@@ -1,16 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using Assets.Helpers;
 using Assets.Models;
 using Assets.Models.DataModels;
@@ -18,12 +8,13 @@ using Assets.Models.DataModels;
 namespace Assets.Views
 {
     /// <summary>
-    /// Interaction logic for HistoryAddingWindow.xaml
+    ///     Interaction logic for HistoryAddingWindow.xaml
     /// </summary>
     public partial class HistoryAddingWindow : Window
     {
         public int AssetId { get; set; }
         public string CallerWindow { get; set; }
+
         public HistoryAddingWindow(int assetId, string callerWindow)
         {
             InitializeComponent();
@@ -33,24 +24,29 @@ namespace Assets.Views
 
         private void SaveBTN_OnClick(object sender, RoutedEventArgs e)
         {
-            var pendingHistory = new Repositions { AssetId = AssetId };
+            var pendingHistory = new Repositions {AssetId = AssetId};
 
             if (!string.IsNullOrWhiteSpace(OldLocationBox.Text))
+            {
                 pendingHistory.OldPosition = OldLocationBox.Text;
+            }
             else
             {
                 MessageBox.Show("Old Location can't be empty");
                 return;
             }
+
             if (!string.IsNullOrWhiteSpace(NewLocationBox.Text))
+            {
                 pendingHistory.NewPosition = NewLocationBox.Text;
+            }
             else
             {
                 MessageBox.Show("New Location can't be empty");
                 return;
             }
 
-            using (DatabaseContext dbContext = new DatabaseContext())
+            using (var dbContext = new DatabaseContext())
             {
                 try
                 {
