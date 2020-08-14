@@ -379,17 +379,17 @@ namespace Assets.Views
             var temp = new Asset();
 
             if (!string.IsNullOrWhiteSpace(AssetIdBox.Text))
-                temp.AssetId = AssetIdBox.Text;
+                temp.AssetId = AssetIdBox.Text.ToLower();
             else
                 Errors.Add("Asset Id Can't be Empty");
 
             if (!string.IsNullOrWhiteSpace(AssetNameBox.Text))
-                temp.AssetName = AssetNameBox.Text;
+                temp.AssetName = AssetNameBox.Text.ToLower();
             else
                 Errors.Add("Asset Name Can't be Empty");
 
             if (!string.IsNullOrWhiteSpace(AssetNumberBox.Text))
-                temp.AssetNumber = AssetNumberBox.Text;
+                temp.AssetNumber = AssetNumberBox.Text.ToLower();
             else
                 Errors.Add("Asset Number Can't be Empty");
 
@@ -428,21 +428,21 @@ namespace Assets.Views
                 Errors.Add("Please select the current status of the Asset");
 
             if (!string.IsNullOrWhiteSpace(ToolTypeBox.Text))
-                temp.ToolType = ToolTypeBox.Text;
+                temp.ToolType = ToolTypeBox.Text.ToLower();
             else
                 Errors.Add("Tool Type Can't be Empty");
 
             if (!string.IsNullOrWhiteSpace(PMVCodeBox.Text))
-                temp.PMVCode = PMVCodeBox.Text;
+                temp.PMVCode = PMVCodeBox.Text.ToLower();
 
             if (!string.IsNullOrWhiteSpace(PoNumberBox.Text))
-                temp.PoNumber = PoNumberBox.Text;
+                temp.PoNumber = PoNumberBox.Text.ToLower();
 
             if (!string.IsNullOrWhiteSpace(PlateSerialNumberBox.Text))
-                temp.PlateSerialNumber = PlateSerialNumberBox.Text;
+                temp.PlateSerialNumber = PlateSerialNumberBox.Text.ToLower();
 
             if (!string.IsNullOrWhiteSpace(CalibrationCertificationNumberBox.Text))
-                temp.CalibrationCertificationNumber = CalibrationCertificationNumberBox.Text;
+                temp.CalibrationCertificationNumber = CalibrationCertificationNumberBox.Text.ToLower();
 
             temp.CalibrationCertificationDate = CalibrationCertificationDatePicker.SelectedDate ??
                                                 SelectedAsset.CalibrationCertificationDate;

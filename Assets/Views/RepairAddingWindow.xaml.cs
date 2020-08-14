@@ -27,7 +27,7 @@ namespace Assets.Views
 
             if (!string.IsNullOrWhiteSpace(RepairLocationBox.Text))
             {
-                pendingRepair.Location = RepairLocationBox.Text;
+                pendingRepair.Location = RepairLocationBox.Text.ToLower();
             }
             else
             {

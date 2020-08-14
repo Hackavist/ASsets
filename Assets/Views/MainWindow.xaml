@@ -16,46 +16,79 @@
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="0.25*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="0.5*" />
             <RowDefinition Height="0.5*" />
             <RowDefinition Height="4*" />
         </Grid.RowDefinitions>
-        <Button
-            x:Name="AddAssetBTN"
-            Grid.Row="0"
-            Grid.Column="2"
-            Margin="30,15"
-            Click="AddAssetBTN_OnClick"
-            Content="Add Asset" />
-        <Button
-            x:Name="SearchBTN"
+        <TextBox
+            x:Name="QueryTXT"
             Grid.Row="0"
             Grid.Column="0"
-            Margin="30,15"
+            Grid.ColumnSpan="2"
+            Margin="15,20"
+            VerticalContentAlignment="Center" />
+        <ComboBox
+            Text="Choose A Property"
+            x:Name="PropertyPicker"
+            Grid.Row="0"
+            Grid.Column="2"
+            Margin="15,20"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch" />
+        <DatePicker
+            x:Name="FromDatePicker"
+            Grid.Row="1"
+            Grid.Column="0"
+            Margin="15,0"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Center"
+            Text="From" />
+        <DatePicker
+            x:Name="ToDatePicker"
+            Grid.Row="1"
+            Grid.Column="1"
+            Margin="15,0"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Center"
+            Text="To" />
+        <Button
+            x:Name="SearchBTN"
+            Grid.Row="1"
+            Grid.Column="2"
+            Margin="20,20"
             Click="SearchBTN_OnClick"
             Content="Search" />
         <Button
             x:Name="NotifyBTN"
-            Grid.Row="0"
-            Grid.Column="1"
-            Margin="30,15"
+            Grid.Row="1"
+            Grid.Column="3"
+            Grid.ColumnSpan="2"
+            Margin="20,10"
             Click="NotifyBTN_OnClick"
-            Content="Notify" />
-        <Image
+            Content="Show Assets Expiring This week" />
+        <Button
+            x:Name="AddAssetBTN"
             Grid.Row="0"
             Grid.Column="3"
-            Width="40"
-            Height="40"
-            MouseLeftButtonUp="UIElement_OnMouseLeftButtonUp"
-            Source="../sign.png" />
+            Margin="20,10"
+            Click="AddAssetBTN_OnClick"
+            Content="Add new Asset" />
+        <Button
+            x:Name="RefreshBTN"
+            Grid.Row="0"
+            Grid.Column="4"
+            Margin="20,10"
+            Click="RefreshBTN_OnClick"
+            Content="Refresh Assets" />
         <DataGrid
             Name="AssetsDataGrid"
             Grid.Row="2"
             Grid.Column="0"
-            Grid.ColumnSpan="4"
+            Grid.ColumnSpan="5"
             AlternatingRowBackground="Honeydew"
             AutoGenerateColumns="True"
             RowBackground="Azure"

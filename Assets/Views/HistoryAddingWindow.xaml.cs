@@ -28,7 +28,7 @@ namespace Assets.Views
 
             if (!string.IsNullOrWhiteSpace(OldLocationBox.Text))
             {
-                pendingHistory.OldPosition = OldLocationBox.Text;
+                pendingHistory.OldPosition = OldLocationBox.Text.ToLower();
             }
             else
             {
@@ -38,7 +38,7 @@ namespace Assets.Views
 
             if (!string.IsNullOrWhiteSpace(NewLocationBox.Text))
             {
-                pendingHistory.NewPosition = NewLocationBox.Text;
+                pendingHistory.NewPosition = NewLocationBox.Text.ToLower();
             }
             else
             {
