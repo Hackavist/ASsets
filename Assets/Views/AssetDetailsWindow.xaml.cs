@@ -33,7 +33,7 @@ namespace Assets.Views
         public ObservableCollection<RepairDto> RepairsList { get; set; }
         public ObservableCollection<RepositionDto> RepositionsList { get; set; }
         private List<string> Errors { get; }
-        public string[] ComboboxSource = { "Ready", "Needs Service", "In Service" };
+        public string[] ComboboxSource = {"Ready", "Needs Service", "In Service"};
 
         public AssetDetailsWindow(AssetDto selectedAssetDto)
         {
@@ -50,7 +50,7 @@ namespace Assets.Views
 
         private void AssetDetailsWindow_OnActivated(object sender, EventArgs e)
         {
-            if (!(bool)Application.Current.Properties[Constants.ShouldAssetDetailsRefresh]) return;
+            if (!(bool) Application.Current.Properties[Constants.ShouldAssetDetailsRefresh]) return;
             FillTheUi();
         }
 
@@ -176,6 +176,13 @@ namespace Assets.Views
 
         private void ShowAssetImageBTN_OnClick(object sender, RoutedEventArgs e)
         {
+            if (string.IsNullOrEmpty(SelectedAsset.AssetPictureBase64) ||
+                string.IsNullOrEmpty(SelectedAsset.AssetPictureFormat))
+            {
+                MessageBox.Show("There isn't an inserted image");
+                return;
+            }
+
             var filePath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + SelectedAsset.AssetName +
                            SelectedAsset.AssetPictureFormat;
             File.WriteAllBytes(filePath, Convert.FromBase64String(SelectedAsset.AssetPictureBase64));
@@ -184,6 +191,13 @@ namespace Assets.Views
 
         private void ShowAssetCertificateBTN_OnClick(object sender, RoutedEventArgs e)
         {
+            if (string.IsNullOrEmpty(SelectedAsset.CalibrationCertificationPictureBase64) ||
+                string.IsNullOrEmpty(SelectedAsset.CalibrationCertificationPictureFormat))
+            {
+                MessageBox.Show("There isn't an inserted image");
+                return;
+            }
+
             var filePath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + SelectedAsset.AssetName +
                            " Certificate " + SelectedAsset.CalibrationCertificationPictureFormat;
             File.WriteAllBytes(filePath, Convert.FromBase64String(SelectedAsset.CalibrationCertificationPictureBase64));

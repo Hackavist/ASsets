@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Windows;
-using System.Windows.Documents;
 using System.Windows.Input;
 using Assets.Helpers;
 using Assets.Models;
@@ -19,11 +18,12 @@ namespace Assets.Views
     public partial class AssetAddingWindow : Window
     {
         private string AssetImageBase64 { get; set; }
-        private string AssetImageFormat { get; set; } = ".png";
+        private string AssetImageFormat { get; set; }
         private string CalibrationCertificateBase64 { get; set; }
-        private string CalibrationCertificateFormat { get; set; } = ".pdf";
-        private List<string> Errors { get; set; }
+        private string CalibrationCertificateFormat { get; set; }
+        private List<string> Errors { get; }
         private int InsertedAssetId { get; set; }
+
         public AssetAddingWindow()
         {
             InitializeComponent();
@@ -34,7 +34,7 @@ namespace Assets.Views
 
         private void ImageNameLabel_OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            DocumentSelectionDialog(out string documentBase64, out string documentName);
+            DocumentSelectionDialog(out var documentBase64, out var documentName);
             AssetImageBase64 = documentBase64;
             var splits = documentName.Split('.');
             AssetImageFormat = "." + splits[splits.Length - 1];
@@ -43,7 +43,7 @@ namespace Assets.Views
 
         private void CalibrationCertificateImageName_OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            DocumentSelectionDialog(out string documentBase64, out string documentName);
+            DocumentSelectionDialog(out var documentBase64, out var documentName);
             CalibrationCertificateBase64 = documentBase64;
             var splits = documentName.Split('.');
             CalibrationCertificateFormat = "." + splits[splits.Length - 1];
@@ -56,18 +56,18 @@ namespace Assets.Views
             var pendingAsset = ExtractAndValidateAsset();
             if (Errors.Count > 0)
             {
-                StringBuilder builder = new StringBuilder();
+                var builder = new StringBuilder();
                 Errors.ForEach(x =>
                 {
                     builder.Append(x);
                     builder.Append("\n");
                 });
-                string aggregatedErrors = builder.ToString();
+                var aggregatedErrors = builder.ToString();
                 MessageBox.Show(aggregatedErrors, "Please Check The Data");
                 return;
             }
 
-            using (DatabaseContext dbContext = new DatabaseContext())
+            using (var dbContext = new DatabaseContext())
             {
                 try
                 {
@@ -98,7 +98,7 @@ namespace Assets.Views
 
         private Asset ExtractAndValidateAsset()
         {
-            Asset temp = new Asset();
+            var temp = new Asset();
 
             if (!string.IsNullOrWhiteSpace(AssetIdBox.Text))
                 temp.AssetId = AssetIdBox.Text.ToLower();
@@ -178,11 +178,11 @@ namespace Assets.Views
             if (!string.IsNullOrWhiteSpace(CalibrationCertificateBase64))
                 temp.CalibrationCertificationPictureBase64 = CalibrationCertificateBase64;
 
-            if (!string.IsNullOrWhiteSpace(AssetImageFormat))
-                temp.AssetPictureFormat = AssetImageFormat;
+            temp.AssetPictureFormat = !string.IsNullOrWhiteSpace(AssetImageFormat) ? AssetImageFormat : "-";
 
-            if (!string.IsNullOrWhiteSpace(CalibrationCertificateFormat))
-                temp.CalibrationCertificationPictureFormat = CalibrationCertificateFormat;
+            temp.CalibrationCertificationPictureFormat = !string.IsNullOrWhiteSpace(CalibrationCertificateFormat)
+                ? CalibrationCertificateFormat
+                : "-";
             return temp;
         }
 
@@ -209,7 +209,7 @@ namespace Assets.Views
 
         private static void DocumentSelectionDialog(out string selectedPicBase64, out string selectedPicName)
         {
-            OpenFileDialog op = new OpenFileDialog
+            var op = new OpenFileDialog
             {
                 Title = "Select a picture",
                 Filter = "All supported graphics|*.jpg;*.jpeg;*.png;*.pdf|" +
@@ -225,13 +225,14 @@ namespace Assets.Views
 
                 if (string.IsNullOrEmpty(op.FileName))
                 {
-                    string path = new Uri(op.FileName).LocalPath;
+                    var path = new Uri(op.FileName).LocalPath;
                     selectedPicBase64 = Convert.ToBase64String(File.ReadAllBytes(path));
                     var splits = path.Split('\\');
                     selectedPicName = splits[splits.Length - 1];
                     return;
                 }
             }
+
             selectedPicName = "";
             selectedPicBase64 = "";
         }
@@ -247,6 +248,5 @@ namespace Assets.Views
             var window = new RepairAddingWindow(InsertedAssetId, Constants.AssetAdditionWindow);
             window.Show();
         }
-
     }
 }
