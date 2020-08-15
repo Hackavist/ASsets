@@ -81,7 +81,7 @@ namespace Assets.Views
                 }
             }
 
-            if (ExpiredAssets.Count>0)
+            if (ExpiredAssets.Count > 0)
             {
                 var window = new ShowExpiryNotificationWindow(ExpiredAssets);
                 window.Show();
@@ -91,7 +91,7 @@ namespace Assets.Views
                 MessageBox.Show("There are no assets to expire this week");
             }
 
-          
+
         }
 
         private void EventSetter_OnHandler(object sender, MouseButtonEventArgs e)
@@ -225,6 +225,7 @@ namespace Assets.Views
                     var db = dbContext.Assets.Where(x => x.Id > 0).ToList();
                     if (db.Count <= 0)
                     {
+                        AssetGridDataSource.Clear();
                         MessageBox.Show("There are no Assets in the database");
                         return;
                     }
