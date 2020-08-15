@@ -10,20 +10,24 @@
     Height="450"
     mc:Ignorable="d">
     <ScrollViewer>
-        <DataGrid
-            Name="AssetsDataGrid"
-            AlternatingRowBackground="Honeydew"
-            AutoGenerateColumns="True"
-            RowBackground="Azure"
-            SelectionMode="Single">
-            <DataGrid.ItemContainerStyle>
-                <Style TargetType="DataGridRow">
-                    <EventSetter
-                        x:Name="GridDoubleClickEvent"
-                        Event="MouseDoubleClick"
-                        Handler="EventSetter_OnHandler" />
-                </Style>
-            </DataGrid.ItemContainerStyle>
-        </DataGrid>
+        <StackPanel>
+            <Button x:Name="PrintBTN" MaxWidth="100" Content="Print" Click="PrintBTN_OnClick"/>
+            <DataGrid
+                Name="AssetsDataGrid"
+                AlternatingRowBackground="Honeydew"
+                AutoGenerateColumns="True"
+                RowBackground="Azure"
+                SelectionMode="Single">
+                <DataGrid.ItemContainerStyle>
+                    <Style TargetType="DataGridRow">
+                        <EventSetter
+                            x:Name="GridDoubleClickEvent"
+                            Event="MouseDoubleClick"
+                            Handler="EventSetter_OnHandler" />
+                    </Style>
+                </DataGrid.ItemContainerStyle>
+            </DataGrid>
+        </StackPanel>
+        
     </ScrollViewer>
 </Window>

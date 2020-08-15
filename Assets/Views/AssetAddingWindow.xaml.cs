@@ -222,11 +222,18 @@ namespace Assets.Views
             {
                 selectedPicName = "";
                 selectedPicBase64 = "";
+
+                if (string.IsNullOrEmpty(op.FileName))
+                {
+                    string path = new Uri(op.FileName).LocalPath;
+                    selectedPicBase64 = Convert.ToBase64String(File.ReadAllBytes(path));
+                    var splits = path.Split('\\');
+                    selectedPicName = splits[splits.Length - 1];
+                    return;
+                }
             }
-            string path = new Uri(op.FileName).LocalPath;
-            selectedPicBase64 = Convert.ToBase64String(File.ReadAllBytes(path));
-            var splits = path.Split('\\');
-            selectedPicName = splits[splits.Length - 1];
+            selectedPicName = "";
+            selectedPicBase64 = "";
         }
 
         private void HistoryBTN_OnClick(object sender, RoutedEventArgs e)
