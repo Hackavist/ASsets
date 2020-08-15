@@ -19,9 +19,9 @@ namespace Assets.Views
     public partial class AssetAddingWindow : Window
     {
         private string AssetImageBase64 { get; set; }
-        private string AssetImageFormat { get; set; }
+        private string AssetImageFormat { get; set; } = ".png";
         private string CalibrationCertificateBase64 { get; set; }
-        private string CalibrationCertificateFormat { get; set; }
+        private string CalibrationCertificateFormat { get; set; } = ".pdf";
         private List<string> Errors { get; set; }
         private int InsertedAssetId { get; set; }
         public AssetAddingWindow()

@@ -313,16 +313,15 @@ namespace Assets.Views
                 {
                     dbContext.Remove(SelectedAsset);
                     dbContext.SaveChanges();
+                    MessageBox.Show("Asset Deleted");
+                    Close();
                 }
                 catch (Exception exception)
                 {
                     Console.WriteLine(exception);
-                    MessageBox.Show("Error Loading Assets ");
+                    MessageBox.Show("Error Deleting Asset");
                 }
             }
-
-            MessageBox.Show("Asset Deleted");
-            Close();
         }
 
         private void EditAssetBTN_OnClick(object sender, RoutedEventArgs e)

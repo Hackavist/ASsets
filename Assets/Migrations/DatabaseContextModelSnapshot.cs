@@ -163,7 +163,7 @@ namespace Assets.Migrations
                     b.HasOne("Assets.Models.DataModels.Asset", "Asset")
                         .WithMany("Repairs")
                         .HasForeignKey("AssetId")
-                        .OnDelete(DeleteBehavior.SetNull)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
@@ -172,7 +172,7 @@ namespace Assets.Migrations
                     b.HasOne("Assets.Models.DataModels.Asset", "Asset")
                         .WithMany("Repositions")
                         .HasForeignKey("AssetId")
-                        .OnDelete(DeleteBehavior.SetNull)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 #pragma warning restore 612, 618

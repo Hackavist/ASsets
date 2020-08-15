@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Assets.Migrations
 {
-    public partial class initmigration : Migration
+    public partial class Init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -30,7 +30,9 @@ namespace Assets.Migrations
                     CalibrationCertificationNumber = table.Column<string>(nullable: true),
                     CalibrationCertificationDate = table.Column<DateTime>(nullable: false),
                     CalibrationCertificationPictureBase64 = table.Column<string>(nullable: true),
-                    AssetPictureBase64 = table.Column<string>(nullable: true)
+                    CalibrationCertificationPictureFormat = table.Column<string>(nullable: false),
+                    AssetPictureBase64 = table.Column<string>(nullable: true),
+                    AssetPictureFormat = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -59,7 +61,7 @@ namespace Assets.Migrations
                         column: x => x.AssetId,
                         principalTable: "Assets",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.SetNull);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -83,7 +85,7 @@ namespace Assets.Migrations
                         column: x => x.AssetId,
                         principalTable: "Assets",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.SetNull);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(

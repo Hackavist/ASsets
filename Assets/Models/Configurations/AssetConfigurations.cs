@@ -20,11 +20,11 @@ namespace Assets.Models.Configurations
             entityBuilder.Property(x => x.AssetStatus).IsRequired().HasConversion<int>();
 
             entityBuilder.HasMany(x => x.Repairs).WithOne(r => r.Asset).HasForeignKey(x => x.AssetId)
-                .OnDelete(DeleteBehavior.SetNull);
+                .OnDelete(DeleteBehavior.Cascade);
 
 
             entityBuilder.HasMany(x => x.Repositions).WithOne(r => r.Asset).HasForeignKey(x => x.AssetId)
-                .OnDelete(DeleteBehavior.SetNull);
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

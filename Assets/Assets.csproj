@@ -174,10 +174,11 @@
     <Compile Include="Helpers\Constants.cs" />
     <Compile Include="Helpers\ImageHelpers.cs" />
     <Compile Include="Helpers\NumberHelpers.cs" />
-    <Compile Include="Migrations\20200808170353_FormatAddition.cs" />
-    <Compile Include="Migrations\20200808170353_FormatAddition.designer.cs">
-      <DependentUpon>20200808170353_FormatAddition.cs</DependentUpon>
+    <Compile Include="Migrations\20200814192721_Init.cs" />
+    <Compile Include="Migrations\20200814192721_Init.designer.cs">
+      <DependentUpon>20200814192721_Init.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\DatabaseContextModelSnapshot.cs" />
     <Compile Include="Models\Dtos\AssetDto.cs" />
     <Compile Include="Models\Dtos\RepairDto.cs" />
     <Compile Include="Models\Dtos\RepositionDto.cs" />
@@ -201,11 +202,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Migrations\20200806124053_initmigration.cs" />
-    <Compile Include="Migrations\20200806124053_initmigration.designer.cs">
-      <DependentUpon>20200806124053_initmigration.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\DatabaseContextModelSnapshot.cs" />
     <Compile Include="Models\BaseModel.cs" />
     <Compile Include="Models\Configurations\AssetConfigurations.cs" />
     <Compile Include="Models\DatabaseContext.cs" />

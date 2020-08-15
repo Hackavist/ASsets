@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Assets.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20200808170353_FormatAddition")]
-    partial class FormatAddition
+    [Migration("20200814192721_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -165,7 +165,7 @@ namespace Assets.Migrations
                     b.HasOne("Assets.Models.DataModels.Asset", "Asset")
                         .WithMany("Repairs")
                         .HasForeignKey("AssetId")
-                        .OnDelete(DeleteBehavior.SetNull)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
@@ -174,7 +174,7 @@ namespace Assets.Migrations
                     b.HasOne("Assets.Models.DataModels.Asset", "Asset")
                         .WithMany("Repositions")
                         .HasForeignKey("AssetId")
-                        .OnDelete(DeleteBehavior.SetNull)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 #pragma warning restore 612, 618

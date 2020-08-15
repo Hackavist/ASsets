@@ -86,8 +86,12 @@ namespace Assets.Views
                 var window = new ShowExpiryNotificationWindow(ExpiredAssets);
                 window.Show();
             }
+            else
+            {
+                MessageBox.Show("There are no assets to expire this week");
+            }
 
-            MessageBox.Show("There are no assets to expire this week");
+          
         }
 
         private void EventSetter_OnHandler(object sender, MouseButtonEventArgs e)
@@ -229,8 +233,16 @@ namespace Assets.Views
                     foreach (var asset in db)
                     {
                         if (asset.CurrentLocation == null)
-                            asset.CurrentLocation = dbContext.Repositions.Where(x => x.AssetId == asset.Id)
-                                .OrderByDescending(x => x.AddedDate).First().NewPosition;
+                        {
+                            var location = dbContext.Repositions.Where(x => x.AssetId == asset.Id)
+                                .OrderByDescending(x => x.AddedDate).FirstOrDefault()
+                                ?.NewPosition;
+
+                            if (string.IsNullOrEmpty(location))
+                            {
+                                asset.CurrentLocation = location;
+                            }
+                        }
 
                         AssetGridDataSource.Add(new AssetDto(asset));
                     }
