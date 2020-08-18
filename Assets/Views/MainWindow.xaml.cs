@@ -213,6 +213,8 @@ namespace Assets.Views
                     Console.WriteLine(exception);
                     MessageBox.Show("Error Loading Assets for date");
                 }
+
+                QueryTXT.Text = string.Empty;
             }
         }
 
