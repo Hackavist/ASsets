@@ -34,7 +34,9 @@ namespace Assets.Views
 
         private void ImageNameLabel_OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            DocumentSelectionDialog(out var documentBase64, out var documentName);
+            string documentBase64 = "";
+            string documentName = "";
+            DocumentSelectionDialog(out documentBase64, out documentName);
             AssetImageBase64 = documentBase64;
             var splits = documentName.Split('.');
             AssetImageFormat = "." + splits[splits.Length - 1];
@@ -209,6 +211,8 @@ namespace Assets.Views
 
         private static void DocumentSelectionDialog(out string selectedPicBase64, out string selectedPicName)
         {
+            selectedPicName = "";
+            selectedPicBase64 = "";
             var op = new OpenFileDialog
             {
                 Title = "Select a picture",
@@ -218,23 +222,15 @@ namespace Assets.Views
                          "Portable Document Format (*.pdf)|*.pdf"
             };
 
-            if (op.ShowDialog() != true)
+            bool? result = op.ShowDialog();
+
+            if (result == true)
             {
-                selectedPicName = "";
-                selectedPicBase64 = "";
-
-                if (string.IsNullOrEmpty(op.FileName))
-                {
-                    var path = new Uri(op.FileName).LocalPath;
-                    selectedPicBase64 = Convert.ToBase64String(File.ReadAllBytes(path));
-                    var splits = path.Split('\\');
-                    selectedPicName = splits[splits.Length - 1];
-                    return;
-                }
+                var path = new Uri(op.FileName).LocalPath;
+                selectedPicBase64 = Convert.ToBase64String(File.ReadAllBytes(path));
+                var splits = path.Split('\\');
+                selectedPicName = splits[splits.Length - 1];
             }
-
-            selectedPicName = "";
-            selectedPicBase64 = "";
         }
 
         private void HistoryBTN_OnClick(object sender, RoutedEventArgs e)
