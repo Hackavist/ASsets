@@ -10,10 +10,28 @@
     Height="450"
     mc:Ignorable="d">
     <ScrollViewer>
-        <StackPanel>
-            <Button x:Name="PrintBTN" MaxWidth="100" Content="Print" Click="PrintBTN_OnClick"/>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.2*" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Button
+                x:Name="ExcelBTN"
+                Grid.Column="0"
+                Grid.ColumnSpan="2"
+                Margin="50,20"
+                Click="ExcelBTN_OnClick"
+                Content="Export to Excel" />
             <DataGrid
                 Name="AssetsDataGrid"
+                Grid.Row="1"
+                Grid.Column="0"
+                Grid.ColumnSpan="2"
                 AlternatingRowBackground="Honeydew"
                 AutoGenerateColumns="True"
                 RowBackground="Azure"
@@ -27,7 +45,7 @@
                     </Style>
                 </DataGrid.ItemContainerStyle>
             </DataGrid>
-        </StackPanel>
-        
+        </Grid>
+
     </ScrollViewer>
 </Window>
