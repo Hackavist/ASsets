@@ -50,6 +50,7 @@ namespace Assets.Views
         private void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
         {
             Refresh();
+            CalculateMonthPayment();
         }
 
         private void MainWindow_OnGotFocus(object sender, RoutedEventArgs e)
@@ -242,7 +243,7 @@ namespace Assets.Views
                                 .OrderByDescending(x => x.AddedDate).FirstOrDefault()
                                 ?.NewPosition;
 
-                            if (string.IsNullOrEmpty(location)) asset.CurrentLocation = location;
+                            if (!string.IsNullOrEmpty(location)) asset.CurrentLocation = location;
                         }
 
                         AssetGridDataSource.Add(new AssetDto(asset));
@@ -269,6 +270,17 @@ namespace Assets.Views
         private void RefreshBTN_OnClick(object sender, RoutedEventArgs e)
         {
             Refresh();
+        }
+
+        private void CalculateMonthPayment()
+        {
+            double sum = 0;
+            foreach (AssetDto asset in AssetGridDataSource)
+            {
+                sum += asset.MonthlyDepreciationDueDate;
+            }
+
+            MonthPayment.Content = $"This month Payment = {sum}";
         }
     }
 }

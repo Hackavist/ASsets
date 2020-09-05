@@ -35,7 +35,7 @@ namespace Assets.Views
         public ObservableCollection<RepairDto> RepairsList { get; set; }
         public ObservableCollection<RepositionDto> RepositionsList { get; set; }
         private List<string> Errors { get; }
-        public string[] ComboboxSource = { "Ready", "Needs Service", "In Service" };
+        public string[] ComboboxSource = { "Ready", "NeedService", "InService" };
 
         public AssetDetailsWindow(AssetDto selectedAssetDto)
         {
