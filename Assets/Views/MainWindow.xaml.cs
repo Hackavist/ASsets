@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
+
 using Assets.Helpers;
 using Assets.Models;
 using Assets.Models.DataModels;
@@ -53,7 +54,7 @@ namespace Assets.Views
 
         private void MainWindow_OnGotFocus(object sender, RoutedEventArgs e)
         {
-            if (!(bool) Application.Current.Properties[Constants.ShouldMainWindowRefresh]) return;
+            if (!(bool)Application.Current.Properties[Constants.ShouldMainWindowRefresh]) return;
             Refresh();
         }
 
@@ -160,12 +161,13 @@ namespace Assets.Views
                         case 4:
                             res = AssetGridDataSource.Where(x =>
                                 x.DateOfPurchase >= fromDate && x.DateOfPurchase <= toDate &&
-                                x.AssetName.Contains(query)).ToList();
+                                x.CurrentLocation.Contains(query)).ToList();
                             break;
+
                         case 5:
                             res = AssetGridDataSource.Where(x =>
                                 x.DateOfPurchase >= fromDate && x.DateOfPurchase <= toDate &&
-                                x.CurrentLocation.Contains(query)).ToList();
+                                x.PoNumber.Contains(query)).ToList();
                             break;
                         case 6:
                             res = AssetGridDataSource.Where(x =>
@@ -260,7 +262,7 @@ namespace Assets.Views
 
         private void MainWindow_OnActivated(object sender, EventArgs e)
         {
-            if (!(bool) Application.Current.Properties[Constants.ShouldMainWindowRefresh]) return;
+            if (!(bool)Application.Current.Properties[Constants.ShouldMainWindowRefresh]) return;
             Refresh();
         }
 
