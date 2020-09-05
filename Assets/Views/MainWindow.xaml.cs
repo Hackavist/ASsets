@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Input;
 using Assets.Helpers;
 using Assets.Models;
+using Assets.Models.DataModels;
 using Assets.Models.Dtos;
 
 namespace Assets.Views
@@ -15,11 +16,6 @@ namespace Assets.Views
     /// </summary>
     public partial class MainWindow : Window
     {
-        public ObservableCollection<AssetDto> AssetGridDataSource { get; set; }
-        public ObservableCollection<AssetDto> ExpiredAssets { get; set; }
-        public ObservableCollection<AssetDto> SearchResults { get; set; }
-        public DateTime LastRefreshed { get; set; }
-
         public string[] ComboboxStrings =
         {
             "Asset Id",
@@ -34,6 +30,11 @@ namespace Assets.Views
             "Tool Type",
             "Calibration Certification Number"
         };
+
+        public ObservableCollection<AssetDto> AssetGridDataSource { get; set; }
+        public ObservableCollection<AssetDto> ExpiredAssets { get; set; }
+        public ObservableCollection<AssetDto> SearchResults { get; set; }
+        public DateTime LastRefreshed { get; set; }
 
         public MainWindow()
         {
@@ -52,27 +53,27 @@ namespace Assets.Views
 
         private void MainWindow_OnGotFocus(object sender, RoutedEventArgs e)
         {
-            if (!(bool)Application.Current.Properties[Constants.ShouldMainWindowRefresh]) return;
+            if (!(bool) Application.Current.Properties[Constants.ShouldMainWindowRefresh]) return;
             Refresh();
         }
 
         private void AddAssetBTN_OnClick(object sender, RoutedEventArgs e)
         {
-            var addingWindow = new AssetAddingWindow();
+            AssetAddingWindow addingWindow = new AssetAddingWindow();
             addingWindow.Show();
         }
 
         private void NotifyBTN_OnClick(object sender, RoutedEventArgs e)
         {
-            using (var dbContext = new DatabaseContext())
+            using (DatabaseContext dbContext = new DatabaseContext())
             {
                 try
                 {
                     var db = dbContext.Assets.Where(x =>
                         x.CalibrationCertificationDate.Date >= DateTime.Today.Date &&
-                        x.CalibrationCertificationDate.Date < DateTime.Today.Date.AddDays(7.0)).ToList();
+                        x.CalibrationCertificationDate.Date < DateTime.Today.Date.AddDays(10.0)).ToList();
                     ExpiredAssets.Clear();
-                    foreach (var asset in db) ExpiredAssets.Add(new AssetDto(asset));
+                    foreach (Asset asset in db) ExpiredAssets.Add(new AssetDto(asset));
                 }
                 catch (Exception exception)
                 {
@@ -83,20 +84,18 @@ namespace Assets.Views
 
             if (ExpiredAssets.Count > 0)
             {
-                var window = new ShowExpiryNotificationWindow(ExpiredAssets);
+                ShowExpiryNotificationWindow window = new ShowExpiryNotificationWindow(ExpiredAssets);
                 window.Show();
             }
             else
             {
                 MessageBox.Show("There are no assets to expire this week");
             }
-
-
         }
 
         private void EventSetter_OnHandler(object sender, MouseButtonEventArgs e)
         {
-            var window = new AssetDetailsWindow(AssetGridDataSource[AssetsDataGrid.SelectedIndex]);
+            AssetDetailsWindow window = new AssetDetailsWindow(AssetGridDataSource[AssetsDataGrid.SelectedIndex]);
             window.Show();
         }
 
@@ -108,15 +107,15 @@ namespace Assets.Views
                 return;
             }
 
-            var query = QueryTXT.Text;
+            string query = QueryTXT.Text;
             DateTime? toDate = DateTime.Today;
             DateTime? fromDate = DateTime.Today;
             if (FromDatePicker.SelectedDate == null)
-                using (var dbContext = new DatabaseContext())
+                using (DatabaseContext dbContext = new DatabaseContext())
                 {
                     try
                     {
-                        var db = dbContext.Assets.OrderBy(x => x.DateOfPurchase).First();
+                        Asset db = dbContext.Assets.OrderBy(x => x.DateOfPurchase).First();
                         fromDate = db.DateOfPurchase;
                     }
                     catch (Exception exception)
@@ -131,9 +130,9 @@ namespace Assets.Views
             if (ToDatePicker.SelectedDate != null) toDate = ToDatePicker.SelectedDate;
             //DateTime date2Compare = new DateTime(2017, 1, 20);
             //list.Where(x => myDateColumn >= date2Compare && x.myTextColumn.Contains('abc'));
-            using (var dbContext = new DatabaseContext())
+            using (DatabaseContext dbContext = new DatabaseContext())
             {
-                List<AssetDto> res = new List<AssetDto>();
+                var res = new List<AssetDto>();
                 try
                 {
                     switch (PropertyPicker.SelectedIndex)
@@ -155,8 +154,8 @@ namespace Assets.Views
                             break;
                         case 3:
                             res = AssetGridDataSource.Where(x =>
-                                 x.DateOfPurchase >= fromDate && x.DateOfPurchase <= toDate &&
-                                 x.PMVCode.Contains(query)).ToList();
+                                x.DateOfPurchase >= fromDate && x.DateOfPurchase <= toDate &&
+                                x.PMVCode.Contains(query)).ToList();
                             break;
                         case 4:
                             res = AssetGridDataSource.Where(x =>
@@ -176,7 +175,7 @@ namespace Assets.Views
                         case 7:
                             res = AssetGridDataSource.Where(x =>
                                 x.DateOfPurchase >= fromDate && x.DateOfPurchase <= toDate &&
-                                Math.Abs(x.PurchaseCostOfAsset - (NumberHelpers.StringToDouble(query))) < 0.05).ToList();
+                                Math.Abs(x.PurchaseCostOfAsset - NumberHelpers.StringToDouble(query)) < 0.05).ToList();
                             break;
 
                         case 8:
@@ -220,7 +219,7 @@ namespace Assets.Views
 
         private void Refresh()
         {
-            using (var dbContext = new DatabaseContext())
+            using (DatabaseContext dbContext = new DatabaseContext())
             {
                 try
                 {
@@ -233,18 +232,15 @@ namespace Assets.Views
                     }
 
                     AssetGridDataSource.Clear();
-                    foreach (var asset in db)
+                    foreach (Asset asset in db)
                     {
                         if (asset.CurrentLocation == null)
                         {
-                            var location = dbContext.Repositions.Where(x => x.AssetId == asset.Id)
+                            string location = dbContext.Repositions.Where(x => x.AssetId == asset.Id)
                                 .OrderByDescending(x => x.AddedDate).FirstOrDefault()
                                 ?.NewPosition;
 
-                            if (string.IsNullOrEmpty(location))
-                            {
-                                asset.CurrentLocation = location;
-                            }
+                            if (string.IsNullOrEmpty(location)) asset.CurrentLocation = location;
                         }
 
                         AssetGridDataSource.Add(new AssetDto(asset));
@@ -264,7 +260,7 @@ namespace Assets.Views
 
         private void MainWindow_OnActivated(object sender, EventArgs e)
         {
-            if (!(bool)Application.Current.Properties[Constants.ShouldMainWindowRefresh]) return;
+            if (!(bool) Application.Current.Properties[Constants.ShouldMainWindowRefresh]) return;
             Refresh();
         }
 

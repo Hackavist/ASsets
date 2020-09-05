@@ -32,13 +32,13 @@
             Margin="15,20"
             VerticalContentAlignment="Center" />
         <ComboBox
-            Text="Choose A Property"
             x:Name="PropertyPicker"
             Grid.Row="0"
             Grid.Column="2"
             Margin="15,20"
             HorizontalAlignment="Stretch"
-            VerticalAlignment="Stretch" />
+            VerticalAlignment="Stretch"
+            Text="Choose A Property" />
         <DatePicker
             x:Name="FromDatePicker"
             Grid.Row="1"
@@ -69,7 +69,7 @@
             Grid.ColumnSpan="2"
             Margin="20,10"
             Click="NotifyBTN_OnClick"
-            Content="Show Assets Expiring This week" />
+            Content="Show Assets Expiring in 10 Days" />
         <Button
             x:Name="AddAssetBTN"
             Grid.Row="0"
