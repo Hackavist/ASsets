@@ -258,7 +258,7 @@
             <Label
                 Grid.Row="8"
                 Grid.Column="2"
-                Content="Months To Depreciation" />
+                Content="Monthly Depreciation" />
             <TextBox
                 x:Name="MonthlyDepreciationDueDateBox"
                 Grid.Row="8"
@@ -272,7 +272,6 @@
                 Margin="15,15"
                 Click="ShowAssetImageBTN_OnClick"
                 Content="Show Asset Image" />
-
             <Label
                 x:Name="ChangeAssetImageLabel"
                 Grid.Row="9"
@@ -308,6 +307,7 @@
                 VerticalAlignment="Stretch"
                 AllowDrop="False"
                 Foreground="Black" />
+
             <!--  Repairs  -->
             <Label
                 Grid.Row="11"
@@ -343,6 +343,7 @@
                 VerticalAlignment="Stretch"
                 Click="RemoveRepairHistory_OnClick"
                 Content="Delete Last Repair" />
+
             <Separator
                 Grid.Row="13"
                 Grid.Column="0"
@@ -351,6 +352,7 @@
                 VerticalAlignment="Stretch"
                 AllowDrop="False"
                 Foreground="Black" />
+
             <!--  History  -->
             <Label
                 Grid.Row="14"
