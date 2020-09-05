@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Input;
+
 using Assets.Helpers;
 using Assets.Models;
 using Assets.Models.DataModels;
 using Assets.Models.Enums;
+
 using Microsoft.Win32;
 
 namespace Assets.Views
@@ -34,9 +37,7 @@ namespace Assets.Views
 
         private void ImageNameLabel_OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            string documentBase64 = "";
-            string documentName = "";
-            DocumentSelectionDialog(out documentBase64, out documentName);
+            DocumentSelectionDialog(out string documentBase64, out string documentName);
             AssetImageBase64 = documentBase64;
             var splits = documentName.Split('.');
             AssetImageFormat = "." + splits[splits.Length - 1];
@@ -45,7 +46,7 @@ namespace Assets.Views
 
         private void CalibrationCertificateImageName_OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            DocumentSelectionDialog(out var documentBase64, out var documentName);
+            DocumentSelectionDialog(out string documentBase64, out string documentName);
             CalibrationCertificateBase64 = documentBase64;
             var splits = documentName.Split('.');
             CalibrationCertificateFormat = "." + splits[splits.Length - 1];
@@ -122,18 +123,22 @@ namespace Assets.Views
             else
                 Errors.Add("Purchase Date Can't be empty");
 
-            if (!string.IsNullOrWhiteSpace(CostOfAssetBox.Text))
-            {
+            if (!string.IsNullOrWhiteSpace(CostOfAssetBox.Text) && !Regex.IsMatch(CostOfAssetBox.Text, @"^[a-zA-Z]+$"))
                 temp.PurchaseCostOfAsset = NumberHelpers.StringToDouble(CostOfAssetBox.Text);
-            }
             else
-            {
-                temp.PurchaseCostOfAsset = -55555.55555;
-                Errors.Add("Cost Of Assets Can't be Empty");
-            }
+                Errors.Add("Cost Of Assets is Empty or Not correct");
 
-            if (!string.IsNullOrWhiteSpace(MonthsToDepreciationBox.Text) &&
-                NumberHelpers.IsAllDigits(MonthsToDepreciationBox.Text))
+            //if (!string.IsNullOrWhiteSpace(CostOfAssetBox.Text))
+            //{
+            //    temp.PurchaseCostOfAsset = NumberHelpers.StringToDouble(CostOfAssetBox.Text);
+            //}
+            //else
+            //{
+            //    temp.PurchaseCostOfAsset = -55555.55555;
+            //    Errors.Add("Cost Of Assets Can't be Empty");
+            //}
+
+            if (!string.IsNullOrWhiteSpace(MonthsToDepreciationBox.Text) && NumberHelpers.IsAllDigits(MonthsToDepreciationBox.Text))
                 temp.MonthsToDepreciation = Convert.ToInt32(MonthsToDepreciationBox.Text);
             else
                 Errors.Add("Months To Depreciation is Empty or Not correct");
