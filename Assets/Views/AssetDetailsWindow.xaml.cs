@@ -9,11 +9,13 @@ using System.Text;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
+
 using Assets.Helpers;
 using Assets.Models;
 using Assets.Models.DataModels;
 using Assets.Models.Dtos;
 using Assets.Models.Enums;
+
 using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.Win32;
 
@@ -33,7 +35,7 @@ namespace Assets.Views
         public ObservableCollection<RepairDto> RepairsList { get; set; }
         public ObservableCollection<RepositionDto> RepositionsList { get; set; }
         private List<string> Errors { get; }
-        public string[] ComboboxSource = {"Ready", "Needs Service", "In Service"};
+        public string[] ComboboxSource = { "Ready", "Needs Service", "In Service" };
 
         public AssetDetailsWindow(AssetDto selectedAssetDto)
         {
@@ -50,7 +52,7 @@ namespace Assets.Views
 
         private void AssetDetailsWindow_OnActivated(object sender, EventArgs e)
         {
-            if (!(bool) Application.Current.Properties[Constants.ShouldAssetDetailsRefresh]) return;
+            if (!(bool)Application.Current.Properties[Constants.ShouldAssetDetailsRefresh]) return;
             FillTheUi();
         }
 
@@ -135,7 +137,7 @@ namespace Assets.Views
             ToolTypeBox.IsReadOnly = true;
             MonthsToDepreciationBox.IsReadOnly = true;
             StatusPicker.IsReadOnly = true;
-            StatusPicker.IsEditable = true;
+            StatusPicker.IsEditable = false;
             CalibrationCertificationDatePicker.IsManipulationEnabled = true;
             CalibrationCertificationNumberBox.IsReadOnly = true;
 
