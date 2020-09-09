@@ -7,7 +7,6 @@ using System.Windows.Input;
 
 using Assets.Helpers;
 using Assets.Models;
-using Assets.Models.DataModels;
 using Assets.Models.Dtos;
 
 namespace Assets.Views
@@ -17,6 +16,11 @@ namespace Assets.Views
     /// </summary>
     public partial class MainWindow : Window
     {
+        public ObservableCollection<AssetDto> AssetGridDataSource { get; set; }
+        public ObservableCollection<AssetDto> ExpiredAssets { get; set; }
+        public ObservableCollection<AssetDto> SearchResults { get; set; }
+        public DateTime LastRefreshed { get; set; }
+
         public string[] ComboboxStrings =
         {
             "Asset Id",
@@ -31,11 +35,6 @@ namespace Assets.Views
             "Tool Type",
             "Calibration Certification Number"
         };
-
-        public ObservableCollection<AssetDto> AssetGridDataSource { get; set; }
-        public ObservableCollection<AssetDto> ExpiredAssets { get; set; }
-        public ObservableCollection<AssetDto> SearchResults { get; set; }
-        public DateTime LastRefreshed { get; set; }
 
         public MainWindow()
         {
@@ -61,13 +60,13 @@ namespace Assets.Views
 
         private void AddAssetBTN_OnClick(object sender, RoutedEventArgs e)
         {
-            AssetAddingWindow addingWindow = new AssetAddingWindow();
+            var addingWindow = new AssetAddingWindow();
             addingWindow.Show();
         }
 
         private void NotifyBTN_OnClick(object sender, RoutedEventArgs e)
         {
-            using (DatabaseContext dbContext = new DatabaseContext())
+            using (var dbContext = new DatabaseContext())
             {
                 try
                 {
@@ -75,7 +74,7 @@ namespace Assets.Views
                         x.CalibrationCertificationDate.Date >= DateTime.Today.Date &&
                         x.CalibrationCertificationDate.Date < DateTime.Today.Date.AddDays(10.0)).ToList();
                     ExpiredAssets.Clear();
-                    foreach (Asset asset in db) ExpiredAssets.Add(new AssetDto(asset));
+                    foreach (var asset in db) ExpiredAssets.Add(new AssetDto(asset));
                 }
                 catch (Exception exception)
                 {
@@ -86,7 +85,7 @@ namespace Assets.Views
 
             if (ExpiredAssets.Count > 0)
             {
-                ShowExpiryNotificationWindow window = new ShowExpiryNotificationWindow(ExpiredAssets);
+                var window = new ShowExpiryNotificationWindow(ExpiredAssets, 0.0);
                 window.Show();
             }
             else
@@ -97,7 +96,7 @@ namespace Assets.Views
 
         private void EventSetter_OnHandler(object sender, MouseButtonEventArgs e)
         {
-            AssetDetailsWindow window = new AssetDetailsWindow(AssetGridDataSource[AssetsDataGrid.SelectedIndex]);
+            var window = new AssetDetailsWindow(AssetGridDataSource[AssetsDataGrid.SelectedIndex]);
             window.Show();
         }
 
@@ -109,15 +108,15 @@ namespace Assets.Views
                 return;
             }
 
-            string query = QueryTXT.Text;
+            var query = QueryTXT.Text;
             DateTime? toDate = DateTime.Today;
             DateTime? fromDate = DateTime.Today;
             if (FromDatePicker.SelectedDate == null)
-                using (DatabaseContext dbContext = new DatabaseContext())
+                using (var dbContext = new DatabaseContext())
                 {
                     try
                     {
-                        Asset db = dbContext.Assets.OrderBy(x => x.DateOfPurchase).First();
+                        var db = dbContext.Assets.OrderBy(x => x.DateOfPurchase).First();
                         fromDate = db.DateOfPurchase;
                     }
                     catch (Exception exception)
@@ -129,10 +128,11 @@ namespace Assets.Views
             else
                 fromDate = FromDatePicker.SelectedDate;
 
+
             if (ToDatePicker.SelectedDate != null) toDate = ToDatePicker.SelectedDate;
             //DateTime date2Compare = new DateTime(2017, 1, 20);
             //list.Where(x => myDateColumn >= date2Compare && x.myTextColumn.Contains('abc'));
-            using (DatabaseContext dbContext = new DatabaseContext())
+            using (var dbContext = new DatabaseContext())
             {
                 var res = new List<AssetDto>();
                 try
@@ -201,8 +201,9 @@ namespace Assets.Views
 
                     if (res.Count > 0)
                     {
-                        ShowExpiryNotificationWindow window =
-                            new ShowExpiryNotificationWindow(new ObservableCollection<AssetDto>(res));
+                        var totalPayment = CalculateTotalPaymentOfInterval(res, fromDate, toDate);
+                        var window =
+                            new ShowExpiryNotificationWindow(new ObservableCollection<AssetDto>(res), totalPayment);
                         window.Show();
                     }
                     else
@@ -220,9 +221,35 @@ namespace Assets.Views
             }
         }
 
+        private double CalculateTotalPaymentOfInterval(List<AssetDto> res, DateTime? fromDate, DateTime? toDate)
+        {
+            return res.Sum(asset => GetPaymentSumOfInterval(asset, fromDate, toDate));
+        }
+
+        private double GetPaymentSumOfInterval(AssetDto asset, DateTime? fromDate, DateTime? toDate)
+        {
+            double res = 0.0;
+
+            var loopStart = fromDate.Value;
+
+            while (loopStart.Month <= toDate.Value.Month)
+            {
+                var netBookValue = asset.PurchaseCostOfAsset - asset.PurchaseCostOfAsset / asset.MonthsToDepreciation *
+                    (loopStart.Month - asset.DateOfPurchase.Month + 1);
+                if (netBookValue > 0.0)
+                    res += asset.PurchaseCostOfAsset / asset.MonthsToDepreciation;
+                else
+                    res += 1;
+                loopStart = loopStart.AddMonths(1);
+            }
+
+            return res;
+        }
+
+
         private void Refresh()
         {
-            using (DatabaseContext dbContext = new DatabaseContext())
+            using (var dbContext = new DatabaseContext())
             {
                 try
                 {
@@ -235,11 +262,11 @@ namespace Assets.Views
                     }
 
                     AssetGridDataSource.Clear();
-                    foreach (Asset asset in db)
+                    foreach (var asset in db)
                     {
                         if (asset.CurrentLocation == null)
                         {
-                            string location = dbContext.Repositions.Where(x => x.AssetId == asset.Id)
+                            var location = dbContext.Repositions.Where(x => x.AssetId == asset.Id)
                                 .OrderByDescending(x => x.AddedDate).FirstOrDefault()
                                 ?.NewPosition;
 
@@ -275,10 +302,7 @@ namespace Assets.Views
         private void CalculateMonthPayment()
         {
             double sum = 0;
-            foreach (AssetDto asset in AssetGridDataSource)
-            {
-                sum += asset.MonthlyDepreciationDueDate;
-            }
+            foreach (var asset in AssetGridDataSource) sum += asset.MonthlyDepreciationDueDate;
 
             MonthPayment.Content = $"This month Payment = {sum}";
         }

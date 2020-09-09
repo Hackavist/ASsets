@@ -4,9 +4,12 @@ using System.Collections.ObjectModel;
 using System.Data;
 using System.Windows;
 using System.Windows.Input;
+
 using Assets.Helpers;
 using Assets.Models.Dtos;
+
 using Microsoft.Office.Interop.Excel;
+
 using Application = Microsoft.Office.Interop.Excel.Application;
 using DataTable = System.Data.DataTable;
 using Window = System.Windows.Window;
@@ -20,12 +23,15 @@ namespace Assets.Views
     {
         public ObservableCollection<AssetDto> AssetGridDataSource { get; set; }
 
-        public ShowExpiryNotificationWindow(ObservableCollection<AssetDto> expAssetDtos)
+        public ShowExpiryNotificationWindow(ObservableCollection<AssetDto> expAssetDtos, double totalPayment)
         {
             InitializeComponent();
             AssetGridDataSource = expAssetDtos;
             AssetsDataGrid.ItemsSource = AssetGridDataSource;
+            TotalPaymentLabel.Content = $"The total payment for this interval is {totalPayment}";
         }
+
+
 
         private void EventSetter_OnHandler(object sender, MouseButtonEventArgs e)
         {
@@ -63,8 +69,8 @@ namespace Assets.Views
 
                 // add all the rows  
                 for (int j = 0; j < table.Rows.Count; j++)
-                for (int k = 0; k < table.Columns.Count; k++)
-                    excelWorkSheet.Cells[j + 2, k + 1] = table.Rows[j].ItemArray[k].ToString();
+                    for (int k = 0; k < table.Columns.Count; k++)
+                        excelWorkSheet.Cells[j + 2, k + 1] = table.Rows[j].ItemArray[k].ToString();
             }
 
             // excelWorkBook.Save(); -> this is save to its default location  
