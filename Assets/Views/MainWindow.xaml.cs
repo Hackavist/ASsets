@@ -49,7 +49,7 @@ namespace Assets.Views
         private void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
         {
             Refresh();
-            CalculateMonthPayment();
+
         }
 
         private void MainWindow_OnGotFocus(object sender, RoutedEventArgs e)
@@ -278,6 +278,7 @@ namespace Assets.Views
 
                     AssetsDataGrid.ItemsSource = AssetGridDataSource;
                     LastRefreshed = DateTime.Now;
+                    CalculateMonthPayment();
                     Application.Current.Properties[Constants.ShouldMainWindowRefresh] = false;
                 }
                 catch (Exception exception)
